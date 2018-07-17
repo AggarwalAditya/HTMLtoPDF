@@ -64,6 +64,12 @@ var HTMLtoPDF = (function(){
 	         		pagesplit: true
 	    		};
 
+      		var margins = {
+                              top: 40,
+                              bottom: 60,
+                              left: 40,
+                              width: 522
+                           };
 				var specialElementHandlers = 
 				{
 		    		'#editor': function (element, renderer) 
@@ -72,10 +78,10 @@ var HTMLtoPDF = (function(){
 		    		}
 				};
 
-				doc.fromHTML(elem, x, y, {
+				doc.fromHTML(elem,x, y, {
 			       		'width': doc.internal.pageSize.width-20 ,
 			           		'elementHandlers': specialElementHandlers
-		    		},options);
+		    		},options,margins);
 		}
 
 		return {
@@ -114,11 +120,11 @@ $(document).ready(function(){
 			{
 				if(i!=0)
 				{
-					y = y + all[i-1].offsetHeight+30;
+					y = y + all[i-1].offsetHeight+40;
 
 				}
 
-				if((y+all[i].offsetHeight) > doc.internal.pageSize.height)
+				if((y+all[i].offsetHeight+60) > doc.internal.pageSize.height)
 			    {
 	        		doc.addPage();
 	        		y=15;
@@ -159,11 +165,11 @@ $(document).ready(function(){
     			{
            			/*base64Img contains full base64string of image   */
            			console.log(base64Img);
-           			doc.addImage(base64Img,'PNG',45,45,150,150);
+           			doc.addImage(base64Img,'JPG',45,45,150,150);
            			
     			}
 
-				toDataUrl(all[i].src, callbackBase64, "image/png");
+				toDataUrl(elem.src, callbackBase64, "image/jpg");
 			}
 
 			else
@@ -174,7 +180,7 @@ $(document).ready(function(){
 					
 					y = y + all[i-1].offsetHeight+20;
 					
-					if((y+all[i].offsetHeight) > doc.internal.pageSize.height)
+					if((y+all[i].offsetHeight+60) > doc.internal.pageSize.height)
 			      	{
 			       		doc.addPage();
 			       		y=15;
